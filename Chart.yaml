@@ -1,0 +1,11 @@
+apiVersion: v2
+name: rocketchat
+description: Rocket.Chat
+type: application
+version: 0.1.0
+appVersion: 3.0.12
+sources:
+  - https://github.com/pacroy/rocketchat
+maintainers:
+  - name: Par
+    email: pacroy@gmail.com

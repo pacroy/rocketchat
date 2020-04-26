@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ printf "%s-%s" $.Release.Name "mongo" }}
+  name: {{ printf "%s-%s" $.Release.Name "mongo" }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: mongo
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      initContainers:
+      containers:
+      - name: mongo
+        image: mongo:4.0
+        command: ["mongod"]
+        args: ["--bind_ip_all", "--replSet", "rs0"]
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1Gi
+        ports:
+        - containerPort: 27017
+          name: mongo
+        volumeMounts:
+        - mountPath: /data/db
+          name: mongo-data
+        - mountPath: /dump
+          name: mongo-dump
+      volumes:
+      - name: mongo-data
+        persistentVolumeClaim:
+          claimName: {{ printf "%s-%s" $.Release.Name "mongo-data" }}
+      - name: mongo-dump
+        persistentVolumeClaim:
+          claimName: {{ printf "%s-%s" $.Release.Name "mongo-dump" }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ printf "%s-%s" $.Release.Name "mongo" }}
+  name: {{ printf "%s-%s" $.Release.Name "mongo" }}
+spec:
+  ports:
+  - port: 27017
+    protocol: TCP
+    targetPort: 27017
+  selector:
+    app: mongo
+  type: ClusterIP

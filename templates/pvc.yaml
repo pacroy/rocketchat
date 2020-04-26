@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: {{ printf "%s-%s" $.Release.Name "mongo-data" }}
+  name: {{ printf "%s-%s" $.Release.Name "mongo-data" }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: {{ printf "%s-%s" $.Release.Name "mongo-dump" }}
+  name: {{ printf "%s-%s" $.Release.Name "mongo-dump" }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
