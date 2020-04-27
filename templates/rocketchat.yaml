@@ -22,7 +22,7 @@ spec:
           - bash
           - "-c"
           - |
-            while ! mongo --quiet --eval "{ ping: 1 }" mongodb://rocket-mongo:27017; do sleep 5; done; while [ $(mongo --quiet --eval "rs.status().ok" mongodb://rocket-mongo:27017) != 1 ]; do mongo --eval "rs.initiate({ _id: 'rs0', members: [ { _id: 0, host: 'localhost:27017' } ]})" mongodb://rocket-mongo:27017 && sleep 5; done;
+            while ! mongo --quiet --eval "{ ping: 1 }" mongodb://{{ printf "%s-%s" $.Release.Name "mongo" }}:27017; do sleep 5; done; while [ $(mongo --quiet --eval "rs.status().ok" mongodb://{{ printf "%s-%s" $.Release.Name "mongo" }}:27017) != 1 ]; do mongo --eval "rs.initiate({ _id: 'rs0', members: [ { _id: 0, host: 'localhost:27017' } ]})" mongodb://{{ printf "%s-%s" $.Release.Name "mongo" }}:27017 && sleep 5; done;
         resources:
             requests:
               cpu: 250m
