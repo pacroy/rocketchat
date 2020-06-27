@@ -2,8 +2,8 @@ apiVersion: v2
 name: rocketchat
 description: Rocket.Chat
 type: application
-version: 1.1.0
-appVersion: 3.2.2
+version: 1.2.0
+appVersion: 3.3.3
 sources:
   - https://github.com/pacroy/rocketchat
 maintainers:

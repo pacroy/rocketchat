@@ -31,7 +31,7 @@ spec:
               memory: 256Mi
       containers:
       - name: rocketchat
-        image: rocketchat/rocket.chat:3.2.2
+        image: rocketchat/rocket.chat:3.3.3
         resources:
           requests:
             cpu: 256m
